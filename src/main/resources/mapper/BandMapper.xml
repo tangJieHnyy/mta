@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bandMapper">
+
+	<resultMap id="Count" type="java.util.Map">
+		<result property="count" column="COUNT"></result>
+	</resultMap>
+
+	<resultMap id="bandInfoList" type="java.util.Map">
+		<result property="bandId" column="ID"></result>
+		<result property="bandName" column="BAND_NAME"></result>
+		<result property="bandSeason" column="BAND_SEASON"></result>
+		<result property="startTime" column="BAND_START_TIME"></result>
+		<result property="endTime" column="BAND_END_TIME"></result>
+		<result property="bandLabel" column="BAND_LABEL"></result>
+		<result property="bandInterpretation" column="BAND_INTERPRETATION"></result>
+		<result property="brandId" column="BRAND_ID"></result>
+	</resultMap>
+		
+	<select id="bandInfoQuery" parameterType="Map" statementType="CALLABLE">
+		<![CDATA[
+			CALL 
+				CMYDATA.TJ_BAND_PKG.P_B_BAND_INFO_QUERY
+						(
+						 #{BAND_NAME},   
+  						 #{BAND_SEASON}, 
+  						 #{BAND_START_TIME},
+  						 #{BAND_END_TIME},
+  						 #{BAND_LABEL},		 
+						 #{BRAND_ID},
+  						 #{PAGE_NUM},
+						 #{PAGE_SIZE},
+						 #{COUNT,mode=OUT, jdbcType=CURSOR, javaType=java.sql.ResultSet, resultMap=Count},
+						 #{BANDCURSOR,mode=OUT, jdbcType=CURSOR, javaType=java.sql.ResultSet, resultMap=bandInfoList})
+		]]>
+	</select>
+	
+	<select id="bandInfoItemQuery" parameterType="Map" statementType="CALLABLE">
+		<![CDATA[
+			CALL 
+				CMYDATA.TJ_BAND_PKG.P_B_BAND_ITEM_QUERY
+						(
+						 #{ID},
+						 #{BANDCURSOR,mode=OUT, jdbcType=CURSOR, javaType=java.sql.ResultSet, resultMap=bandInfoList})
+		]]>
+	</select>
+	
+	<select id="addBandInfo" statementType="CALLABLE" parameterType="Map">
+
+		<![CDATA[
+			CALL 
+				CMYDATA.TJ_BAND_PKG.P_B_ADD_BAND
+						(
+						 #{BAND_NAME},   
+  						 #{BAND_SEASON}, 
+  						 #{BAND_START_TIME},
+  						 #{BAND_END_TIME},
+  						 #{BAND_LABEL},
+  						 #{BAND_INTERPRETATION},		 
+						 #{BRAND_ID},
+  						 #{RESULT,jdbcType=INTEGER,mode=OUT}
+						)
+		]]>
+
+	</select>
+	
+	<select id="updateBandInfo" statementType="CALLABLE" parameterType="Map">
+
+		<![CDATA[
+			CALL 
+				CMYDATA.TJ_BAND_PKG.P_B_UPDATE_BAND
+						(
+						 #{BAND_ID},
+						 #{BAND_NAME},   
+  						 #{BAND_SEASON}, 
+  						 #{BAND_START_TIME},
+  						 #{BAND_END_TIME},
+  						 #{BAND_LABEL},
+  						 #{BAND_INTERPRETATION},	 		 
+						 #{BRAND_ID},
+  						 #{RESULT,jdbcType=INTEGER,mode=OUT}
+						)
+		]]>
+
+	</select>
+	
+	<select id="deleteBandInfo" statementType="CALLABLE" parameterType="Map">
+
+		<![CDATA[
+			CALL 
+				CMYDATA.TJ_BAND_PKG.P_B_DELETE_BAND
+						(
+						 #{BAND_ID},
+  						 #{RESULT,jdbcType=INTEGER,mode=OUT}
+						)
+		]]>
+
+	</select>
+	
+	
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
